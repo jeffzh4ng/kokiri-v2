@@ -60,8 +60,20 @@ const deliveryByCoordTests = () => {
 // Purpose: Produces a delivered map derived from the consumed directions
 const deliverByDirections = (input: Array<Direction>): DeliveryMap => {
   const init: DeliveryInfo = {map: new Map(), coord: [0, 0]};
-  const delivered = input.reduce(deliverByCoord, init)
-  return delivered.map
+
+  const santaDelivered = input.filter((_, i) => i % 2 == 0)
+                              .reduce(deliverByCoord, init)
+
+  const turboDelivered = input.filter((_, i) => i % 2 != 0)
+                              .reduce(deliverByCoord, init)
+
+  
+  const mergedDeliveries = new Map([
+    ...Array.from(santaDelivered.map.entries()),
+    ...Array.from(turboDelivered.map.entries())
+  ])
+
+  return mergedDeliveries
 }
 
 const countUniqueDeliveries = (input: Array<Direction>): number => {
