@@ -50,11 +50,7 @@ const paperCountTests = () => {
   }
 }
 
-const paperCounts = (input: Array<PresentDimension>): number => {
-  return input.reduce((prev, cur): number => {
-    return prev + paperCount(cur)
-  }, 0)
-}
+const paperCounts = (input: Array<PresentDimension>): number => input.reduce((prev, cur): number => prev + paperCount(cur), 0)
 
 const paperCountsTests = () => {
   const testOneInput = {
@@ -78,6 +74,47 @@ const paperCountsTests = () => {
   }
 }
 
+// ribbonCount: PresentDimension -> number
+// Purpose: Produces the required amount of ribbon for each gift
+const ribbonCount = (input: PresentDimension): number => {
+  const p1 = (input.length * 2) + (input.width * 2)
+  const p2 = (input.width * 2) + (input.height * 2)
+  const p3 = (input.height * 2) + (input.length * 2)
+
+  const baseCount = Math.min(p1, p2, p3)
+  const bowCount = input.length * input.width * input.height
+
+  return baseCount + bowCount
+}
+
+const ribbonCountTests = () => {
+  const testThreeInput = {
+    length: 2,
+    width: 3,
+    height: 4
+  }
+
+  if (ribbonCount(testThreeInput) == 34) {
+    console.log('test 3 passed')
+  } else {
+    console.log('test 3 failed')
+  }
+  
+  const testFourInput = {
+    length: 1,
+    width: 1,
+    height: 10
+  }
+  
+  if (ribbonCount(testFourInput) == 14) {
+    console.log('test 4 passed')
+  } else {
+    console.log('test 4 failed')
+  }
+}
+
+const ribbonCounts = (input: Array<PresentDimension>): number => input.reduce((prev, cur) => prev + ribbonCount(cur), 0)
+
 const stars = () => {
   const input = rl.createInterface({
     input: fs.createReadStream('./input'),
@@ -99,8 +136,11 @@ const stars = () => {
   })
 
   input.on('close', () => {
-    const output = paperCounts(parsedInput)
-    console.log(output)
+    const outputOne = paperCounts(parsedInput)
+    const outputTwo = ribbonCounts(parsedInput)
+    
+    console.log(outputOne)
+    console.log(outputTwo)
   })
 }
 
@@ -108,6 +148,7 @@ const main = () => {
   stars()
   paperCountTests()
   paperCountsTests()
+  ribbonCountTests()
 }
 
 main()
