@@ -111,9 +111,9 @@ const basementCountTests = () => {
 }
 
 const stars = () => {
-  const data = fs.readFileSync("./input", 'utf8');
-  const outputOne = floorCount(data)
-  const outputTwo = basementCount(data)
+  const input = fs.readFileSync("./input", 'utf8');
+  const outputOne = floorCount(input)
+  const outputTwo = basementCount(input)
 
   console.log(outputOne)
   console.log(outputTwo)
