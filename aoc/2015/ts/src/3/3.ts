@@ -9,35 +9,30 @@ interface DeliveryInfo {
   coord: Coordinate
 }
 
-const serializeCoord = (coord: Coordinate): string => `${coord[0]}${coord[1]}`
+const serializeCoord = (coord: Coordinate): string => `${coord[0]},${coord[1]}`
+
+const move = (coord: Coordinate, direction: Direction): Coordinate => {
+  switch (direction) {
+    case "up": return [coord[0], coord[1] + 1];
+    case "right": return [coord[0] + 1, coord[1]];
+    case "down": return [coord[0], coord[1] - 1];
+    case "left": return [coord[0] - 1, coord[1]];
+  }
+}
 
 // deliverByCoord: DeliveryInfo, Direction -> DeliveryInfo
 // Purpose: Produces a new DeliveryInfo based on the consumed Direction
-const deliverByCoord = (info: DeliveryInfo, cur: Direction): DeliveryInfo => {
-  const coord = info.coord
-  
-  if (cur == "up") {
-    coord[1] += 1
-  } else if (cur == "right") {
-    coord[0] += 1
-  } else if (cur == "down") {
-    coord[1] -= 1
-  } else if (cur == "left") {
-    coord[0] -= 1
-  }
+const deliverByCoord = (info: DeliveryInfo, dir: Direction): DeliveryInfo => {
+  const newCoord = move(info.coord, dir)
+  const serializedCoord = serializeCoord(newCoord)
+  const visits = info.map.get(serializedCoord) || 0;
 
-  const map = info.map
-  const serializedCoord = serializeCoord(coord)
-
-  if (map.has(serializedCoord)) {
-    map.set(serializedCoord, map.get(serializedCoord)! + 1)
-  } else {
-    map.set(serializedCoord, 1)
-  }
+  const newMap = new Map(info.map);
+  newMap.set(serializedCoord, visits + 1);
 
   return {
-    map,
-    coord
+    map: newMap,
+    coord: newCoord
   }
 }
 
@@ -54,7 +49,7 @@ const deliveryByCoordTests = () => {
     console.log('test 1.1 failed')
   }
 
-  if (!(deliveryInfo.map.has("01") && deliveryInfo.map.get("01") == 1)) {
+  if (!(deliveryInfo.map.has("0,1") && deliveryInfo.map.get("0,1") == 1)) {
     console.log('test 1.2 failed')
   }
 
