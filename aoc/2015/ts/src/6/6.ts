@@ -1,7 +1,7 @@
 import * as fs from 'fs'
 
 // state
-type LightState = boolean
+type LightState = number
 type Row = Array<LightState>
 type Grid = Array<Row>
 
@@ -18,12 +18,9 @@ interface Instruction {
 // Purpose: produces a new light state after applying command
 const applyCommand = (cell: LightState, cmd: Command): LightState => {
   switch (cmd) {
-    case 'on':
-      return true
-    case 'off':
-      return false
-    default:
-      return !cell
+    case 'on': return cell + 1
+    case 'off': (cell - 1 < 0) ? 0 : cell - 1
+    case 'toggle': return cell + 2
   }
 }
 
@@ -42,8 +39,8 @@ const evalInstructionOnRowTests = () => {
     stop: [9, 9]
   }
 
-  const expected = [...Array(10).fill(true), ...Array(990).fill(false)]
-  const actual = evalInstructionOnRow(Array(1000).fill(false), ins)
+  const expected = [...Array(10).fill(1), ...Array(990).fill(0)]
+  const actual = evalInstructionOnRow(Array(1000).fill(0), ins)
 
   if (JSON.stringify(expected) === JSON.stringify(actual)) {
     console.log('test 1 passed')
@@ -68,8 +65,8 @@ const evalInstructionsOnGrid = (grid: Grid, ins: Array<Instruction>): Grid =>
 // Purpose: Produce the number of lights turned on
 const lightCount = (grid: Grid): number =>
   grid
-    .map(r =>((row: Row): number => row.reduce((p, c) => c ? p += 1 : p, 0))(r))
-    .reduce((p, c) => p += c, 0)
+    .map(r =>((row: Row): number => row.reduce<number>((p, c) => p + c, 0))(r))
+    .reduce((p, c) => p + c, 0)
 
 // parseCommand :: string -> Command
 // Purpose: produces the parsed command from the input string
@@ -107,7 +104,7 @@ const stars = () => {
   }))
 
   const output = lightCount(evalInstructionsOnGrid(
-    [...Array(1000)].map(_ => Array(1000).fill(false)),
+    [...Array(1000)].map(_ => Array(1000).fill(0)),
     parsedInput))
   console.log(output)
 }
