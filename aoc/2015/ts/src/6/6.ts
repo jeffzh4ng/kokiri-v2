@@ -1,3 +1,4 @@
+import * as assert from 'assert'
 import * as fs from 'fs'
 
 // state
@@ -42,11 +43,7 @@ const evalInstructionOnRowTests = () => {
   const expected = [...Array(10).fill(1), ...Array(990).fill(0)]
   const actual = evalInstructionOnRow(Array(1000).fill(0), ins)
 
-  if (JSON.stringify(expected) === JSON.stringify(actual)) {
-    console.log('test 1 passed')
-  } else {
-    console.log('test 1 failed')
-  }
+  assert.deepEqual(expected, actual)
 }
 
 // evalInstruction: Grid, Instruction -> Grid

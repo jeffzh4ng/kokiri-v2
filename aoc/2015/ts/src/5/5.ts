@@ -1,3 +1,4 @@
+import * as assert from 'assert';
 import * as fs from 'fs';
 
 const VOWEL =  {
@@ -31,30 +32,10 @@ const threeVowels = (input: string): boolean =>
 
 // Tests:
 const threeVowelsTests = () => {
-  if (threeVowels("aaa")) {
-    console.log('test 15 passed')
-  } else {
-    console.log('test 15 failed')
-  }
-
-
-  if (threeVowels("aei")) {
-    console.log('test 9 passed')
-  } else {
-    console.log('test 9 failed')
-  }
-
-  if (threeVowels("xazegov")) {
-    console.log('test 10 passed')
-  } else {
-    console.log('test 10 failed')
-  }
-
-  if (threeVowels("aeiouaeiouaeiou")) {
-    console.log('test 11 passed')
-  } else {
-    console.log('test 11 failed')
-  }
+  assert.equal(threeVowels("aaa"), true)
+  assert.equal(threeVowels("aei"), true)
+  assert.equal(threeVowels("xazegov"), true)
+  assert.equal(threeVowels("aeiouaeiouaeiou"), true)
 }
 
 // twice: string -> boolean
@@ -66,29 +47,10 @@ const twice = (input: string): boolean =>
 
 // Tests:
 const twiceTests = () => {
-  if (twice("aa")) {
-    console.log('test 5 passed')
-  } else {
-    console.log('test 5 failed')
-  }
-
-  if (twice("yy")) {
-    console.log('test 6 passed')
-  } else {
-    console.log('test 6 failed')
-  }
-
-  if (!twice("ythequicky")) {
-    console.log('test 7 passed')
-  } else {
-    console.log('test 7 failed')
-  }
-
-  if (!twice("thequicky")) {
-    console.log('test 8 passed')
-  } else {
-    console.log('test 8 failed')
-  }
+  assert.equal(twice("aa"), true)
+  assert.equal(twice("yy"), true)
+  assert.equal(twice("ythequicky"), false)
+  assert.equal(twice("thequicky"), false)
 }
 
 // blackList: string -> boolean
@@ -101,30 +63,10 @@ const blackList = (input: string): boolean => input.includes('ab') ||
 
 // Tests:
 const blackListTests = () => {
-  // do no harm
-  if (blackList("ab") == true) {
-    console.log('test 1 passed')
-  } else {
-    console.log('test 1 failed')
-  }
-
-  if (blackList("aba") == true) {
-    console.log('test 2 passed')
-  } else {
-    console.log('test 2 failed')
-  }
-
-  if (blackList("aaba") == true) {
-    console.log('test 3 passed')
-  } else {
-    console.log('test 3 failed')
-  }
-
-  if (blackList("foo") == false) {
-    console.log('test 4 passed')
-  } else {
-    console.log('test 4 failed')
-  }
+  assert.equal(blackList("ab"), true)
+  assert.equal(blackList("aba"), true)
+  assert.equal(blackList("aaba"), true)
+  assert.equal(blackList("foo"), false)
 }
 
 const isNice = (input: string): boolean => {
@@ -132,20 +74,8 @@ const isNice = (input: string): boolean => {
 }
 
 const isNiceTests = () => {
-  if (isNice("ugknbfddgicrmopn")) {
-    console.log('test 13 passed')
-  } else {
-    console.log('test 13 failed')    
-  }
-
-  if (isNice("aaa")) {
-    console.log('test 14 passed')
-  } else {
-    console.log(
-      threeVowels('aaa'), twice('aaa'), !blackList('aaa')
-    )
-    console.log('test 14 failed')    
-  }
+  assert.equal(isNice("ugknbfddgicrmopn"), true)
+  assert.equal(isNice("aaa"), true)
 }
 
 // twoLettersTwice: string -> boolean
@@ -169,17 +99,8 @@ const overlap = (haystack: string, needle: string): boolean =>
 
 // Tests:
 const overlapTests = () => {
-  if (overlap("aaa", "aa")) {
-    console.log('test 16 passed')
-  } else {
-    console.log('test 16 failed')
-  }
-
-  if (!overlap("xyxy", "xy")) {
-    console.log('test 17 passed')
-  } else {
-    console.log('test 17 failed')
-  }
+  assert.equal(overlap("aaa", "aa"), true)
+  assert.equal(overlap("xyxy", "xy"), false)
 }
 
 const twoLettersTwiceNoOverlap = (input: string): boolean =>
@@ -190,35 +111,11 @@ const twoLettersTwiceNoOverlap = (input: string): boolean =>
     .reduce((p, c) => p || c, false)
 
 const twoLettersTwiceTest = () => {
-  if (twoLettersTwiceNoOverlap("xyxy")) {
-    console.log('test 18 passed')
-  } else {
-    console.log('test 18 failed')
-  }
-
-  if (twoLettersTwiceNoOverlap("aabcdefgaa")) {
-    console.log('test 19 passed')
-  } else {
-    console.log('test 19 failed')
-  }
-
-  if (!twoLettersTwiceNoOverlap("aaa")) {
-    console.log('test 20 passed')
-  } else {
-    console.log('test 20 failed')
-  }
-
-  if (twoLettersTwiceNoOverlap("aaaxyxy")) {
-    console.log('test 21 passed')
-  } else {
-    console.log('test 21 failed')
-  }
-
-  if (twoLettersTwiceNoOverlap("aaaa")) {
-    console.log('test 22 passed')
-  } else {
-    console.log('test 22 failed')
-  }
+  assert.equal(twoLettersTwiceNoOverlap("xyxy"), true)
+  assert.equal(twoLettersTwiceNoOverlap("aabcdefgaa"), true)
+  assert.equal(twoLettersTwiceNoOverlap("aaa"), false)
+  assert.equal(twoLettersTwiceNoOverlap("aaaxyxy"), true)
+  assert.equal(twoLettersTwiceNoOverlap("aaaa"), true)
 }
 
 // alternating: string -> boolean
@@ -239,58 +136,21 @@ const alternating = (input: string): boolean => {
 
 // Tests:
 const alternatingTests = () => {
-  if (alternating("aba")) {
-    console.log('test 23 passed')
-  } else {
-    console.log('test 23 failed')
-  }
+  assert.equal(alternating("aba"), true)
+  assert.equal(alternating("efe"), true)
 
-  if (alternating("efe")) {
-    console.log('test 24 passed')
-  } else {
-    console.log('test 24 failed')
-  }
-
-  if (!alternating("abb")) {
-    console.log('test 25 passed')
-  } else {
-    console.log('test 25 failed')
-  }
-
-  if (alternating("abaaaa")) {
-    console.log('test 26 passed')
-  } else {
-    console.log('test 26 failed')
-  }
+  assert.equal(alternating("abb"), false)
+  assert.equal(alternating("abaaaa"), true)
 }
 
 const isNiceImproved = (input: string): boolean =>
   twoLettersTwiceNoOverlap(input) && alternating(input)
 
 const isNiceImprovedTests = () => {
-  if (isNiceImproved("qjhvhtzxzqqjkmpb")) {
-    console.log('test 27 passed')
-  } else {
-    console.log('test 27 failed')
-  }
-
-  if (isNiceImproved("xxyxx")) {
-    console.log('test 28 passed')
-  } else {
-    console.log('test 28 failed')
-  }
-  
-  if (!isNiceImproved("uurcxstgmygtbstg")) {
-    console.log('test 29 passed')
-  } else {
-    console.log('test 29 failed')
-  }
-
-  if (!isNiceImproved("ieodomkazucvgmuy")) {
-    console.log('test 30 passed')
-  } else {
-    console.log('test 30 failed')
-  }
+  assert.equal(isNiceImproved("qjhvhtzxzqqjkmpb"), true)
+  assert.equal(isNiceImproved("xxyxx"), true)
+  assert.equal(isNiceImproved("uurcxstgmygtbstg"), false)
+  assert.equal(isNiceImproved("ieodomkazucvgmuy"), false)
 }
 
 

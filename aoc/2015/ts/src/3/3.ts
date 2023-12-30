@@ -1,3 +1,4 @@
+import * as assert from 'assert'
 import * as fs from 'fs'
 
 type Direction = "up" | "right" | "down" | "left"
@@ -45,15 +46,9 @@ const deliveryByCoordTests = () => {
   const direction = "up"
   const deliveryInfo = deliverByCoord(info, direction)
 
-  if (deliveryInfo.coord[0] != 0 && deliveryInfo.coord[1] != 1) {
-    console.log('test 1.1 failed')
-  }
-
-  if (!(deliveryInfo.map.has("0,1") && deliveryInfo.map.get("0,1") == 1)) {
-    console.log('test 1.2 failed')
-  }
-
-  console.log('test 1 passed')
+  assert.equal(deliveryInfo.coord[0], 0)
+  assert.equal(deliveryInfo.coord[1], 1)
+  assert.equal((deliveryInfo.map.has("0,1") && deliveryInfo.map.get("0,1") == 1), true)
 }
 
 // deliverByDirections: Array<Direction> -> DeliveryMap

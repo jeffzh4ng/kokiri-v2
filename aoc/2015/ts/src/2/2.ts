@@ -1,3 +1,4 @@
+import * as assert from 'assert'
 import * as fs from 'fs'
 import * as rl from 'readline'
 
@@ -29,25 +30,14 @@ const paperCountTests = () => {
     width: 3,
     height: 4
   }
-
-  if (paperCount(testOneInput) == 58) {
-    console.log('test 1 passed')
-  } else {
-    console.log('test 1 failed')
-  }
+  assert.equal(paperCount(testOneInput), 58)
   
   const testTwoInput = {
     length: 1,
     width: 1,
     height: 10
   }
-  
-  if (paperCount(testTwoInput) == 43) {
-    console.log('test 2 passed')
-  } else {
-    console.log(paperCount(testTwoInput))
-    console.log('test 2 failed')
-  }
+  assert.equal(paperCount(testTwoInput), 43)
 }
 
 const paperCounts = (input: Array<PresentDimension>): number => input.reduce((prev, cur): number => prev + paperCount(cur), 0)
@@ -67,11 +57,7 @@ const paperCountsTests = () => {
 
   const tests = [testOneInput, testTwoInput]
 
-  if (paperCounts(tests) == 101) {
-    console.log('test 3 passed')  
-  } else {
-    console.log('test 4 passed')  
-  }
+  assert.equal(paperCounts(tests), 101)
 }
 
 // ribbonCount: PresentDimension -> number
@@ -93,24 +79,14 @@ const ribbonCountTests = () => {
     width: 3,
     height: 4
   }
+  assert.equal(ribbonCount(testThreeInput), 34)
 
-  if (ribbonCount(testThreeInput) == 34) {
-    console.log('test 3 passed')
-  } else {
-    console.log('test 3 failed')
-  }
-  
   const testFourInput = {
     length: 1,
     width: 1,
     height: 10
   }
-  
-  if (ribbonCount(testFourInput) == 14) {
-    console.log('test 4 passed')
-  } else {
-    console.log('test 4 failed')
-  }
+  assert.equal(ribbonCount(testFourInput), 14)
 }
 
 const ribbonCounts = (input: Array<PresentDimension>): number => input.reduce((prev, cur) => prev + ribbonCount(cur), 0)

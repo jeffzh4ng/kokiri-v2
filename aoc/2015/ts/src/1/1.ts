@@ -1,3 +1,4 @@
+import * as assert from 'assert/strict';
 import * as fs from 'fs';
 
 // floorCount: String -> number
@@ -13,62 +14,17 @@ const floorCount = (input: String): number => {
 
 const floorCountTests = () => {
   // Examples:
-  if (floorCount("(())") == 0)  console.log('example passed')
+  assert.equal(floorCount("(())"), 0)
 
-  // Tests
-  if (floorCount("(())") == 0)  {
-    console.log('test 1 passed')
-  } else {
-    console.log('test 1 failed')
-  }
-
-  if (floorCount("()()") == 0)  {
-    console.log('test 2 passed')
-  } else {
-    console.log('test 2 failed')
-  }
-
-  if (floorCount("(((") == 3)  {
-    console.log('test 3 passed')
-  } else {
-    console.log('test 3 failed')
-  }
-
-  if (floorCount("(()(()(") == 3)  {
-    console.log('test 3 passed')
-  } else {
-    console.log('test 3 failed')
-  }
-
-  if (floorCount("))(((((") == 3)  {
-    console.log('test 4 passed')
-  } else {
-    console.log('test 4 failed')
-  }
-
-  if (floorCount("())") == -1)  {
-    console.log('test 5 passed')
-  } else {
-    console.log('test 5 failed')
-  }
-
-  if (floorCount("))(") == -1)  {
-    console.log('test 6 passed')
-  } else {
-    console.log('test 6 failed')
-  }
-
-  if (floorCount(")))") == -3)  {
-    console.log('test 7 passed')
-  } else {
-    console.log('test 7 failed')
-  }
-
-  if (floorCount(")())())") == -3)  {
-    console.log('test 8 passed')
-  } else {
-    console.log('test 8 failed')
-  }
+  assert.equal(floorCount("(())"), 0)
+  assert.equal(floorCount("()()"), 0)
+  assert.equal(floorCount("((("), 3)
+  assert.equal(floorCount("(()(()("), 3)
+  assert.equal(floorCount("))((((("), 3)
+  assert.equal(floorCount("())"), -1)
+  assert.equal(floorCount("))("), -1)
+  assert.equal(floorCount(")))"), -3)
+  assert.equal(floorCount(")())())"), -3)
 }
 
 // basementCount: String -> number
@@ -91,23 +47,8 @@ const basementCount = (input: String): number | Error => {
 }
 
 const basementCountTests = () => {
-  if (basementCount("") instanceof Error) {
-    console.log("test 9 passed")
-  } else {
-    console.log("test 9 failed")
-  }
-
-  if (basementCount(")") == 1) {
-    console.log("test 10 passed")
-  } else {
-    console.log("test 10 failed")
-  }
-
-  if (basementCount("()())") == 5) {
-    console.log("test 11 passed")
-  } else {
-    console.log("test 11 failed")
-  }
+  assert.equal(basementCount(")"), 1)
+  assert.equal(basementCount("()())"), 5)
 }
 
 const stars = () => {
