@@ -25,7 +25,7 @@ const move = (coord: Coordinate, direction: Direction): Coordinate => {
 const deliverByCoord = (info: DeliveryInfo, dir: Direction): DeliveryInfo => {
   const newCoord = move(info.coord, dir)
   const serializedCoord = serializeCoord(newCoord)
-  const visits = info.map.get(serializedCoord) || 0;
+  const visits = info.map.get(serializedCoord) ?? 0;
 
   const newMap = new Map(info.map);
   newMap.set(serializedCoord, visits + 1);

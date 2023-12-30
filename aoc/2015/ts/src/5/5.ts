@@ -22,7 +22,7 @@ const threeVowels = (input: string): boolean =>
     .split('')
     .reduce((p, c) =>
       isVowel(c) ?
-        new Map([...Array.from(p.entries()), [c as Vowel, (p.get(c as Vowel) || 0) + 1]]) : p
+        new Map([...Array.from(p.entries()), [c as Vowel, (p.get(c as Vowel) ?? 0) + 1]]) : p
     , new Map<Vowel, number>())
     .values()
     )
@@ -156,7 +156,7 @@ const twoLettersTwiceMap = (input: string): Map<string, number> =>
     .reduce<[Map<string, number>, string]>((p, c) =>
       [new Map([
         ...Array.from(p[0].entries()),
-        [`${p[1]}${c}`, (p[0].get(`${p[1]}${c}`) || 0) + 1]]), c]
+        [`${p[1]}${c}`, (p[0].get(`${p[1]}${c}`) ?? 0) + 1]]), c]
       , [new Map<string, number>(), ""])[0]
 
 // overlap: string -> boolean
