@@ -238,7 +238,6 @@ const stars = () => {
   const state = new Map<Binding, number>()
 
   const output = evaluate(state, instrs, 'a',)
-  console.log(output)
 }
 
 const tests = () => {
