@@ -1,17 +1,13 @@
+import * as assert from 'assert';
 import * as fs from 'fs';
-
-// countLiteralLength :: string -> number
-// Purpose: produces the literal length
-const literalLength = (input: string): number => input.length
-
 
 // hexStringToAscii :: string -> string
 // Purpose: produces the ascii character associated with the hex encoded input
 const hexStringToAscii = (input: string): string => String.fromCharCode(parseInt(input, 16));
 
-// unEsc :: string -> string
-// Purpose: Unescapes the string
-const unEsc = (input: string): string => {
+// decode :: string -> string
+// Purpose: Produces a decoded string
+const decode = (input: string): string => {
   const escToken = '\\'
   const quoteToken = '\"'
   const hexToken = 'x'
@@ -43,36 +39,68 @@ const unEsc = (input: string): string => {
   return output[0]
 }
 
+// encode :: string -> string
+// Purpose: produces an encoded string
+const encode = (input: string): string =>
+  input
+    .split('')
+    .reduce((p, c) => {
+      const escToken = '\\'
+      const quoteToken = '\"'
+
+      if (c === quoteToken || c === escToken) {
+        return `${p}\\${c}`
+      } else {
+        return `${p}${c}`
+      }
+    }, '')
+
+
+const encodeTests = () => {
+  assert.equal(encode("\"\""), "\\\"\\\"")
+  assert.equal(encode("\"abc\""), "\\\"abc\\\"")
+  assert.equal(encode("\"aaa\\\"aaa\""), "\\\"aaa\\\\\\\"aaa\\\"")
+  assert.equal(encode("\"\\x27\""), "\\\"\\\\x27\\\"")
+}
+
 // countSymbolLength :: string -> number
 // Purpose: produces the symbol length
-const symbolLength = (input: string): number => {
+const decodedLength = (input: string): number => {
   const trimmedInput = input.substring(1, input.length - 1)
-  const unescapedInput = unEsc(trimmedInput)
-  console.log(unescapedInput)
+  const unescapedInput = decode(trimmedInput)
   return unescapedInput.length
 }
 
 // difference :: string -> number
-// Purpose: produces the difference of the literal length and symbol length
-const difference = (input: string): number => {
-  const ll = literalLength(input)
-  const ss = symbolLength(input)
-  return ll - ss
+// Purpose: produces the difference of the encoded (literal) length and decoded (symbol) length
+const literalLessDecoded = (input: string): number => {
+  const ll = input.length
+  const dl = decodedLength(input)
+  return ll - dl
 }
 
-const sumOfDifferences = (input: Array<string>): number =>
+const sumOfDifferences = (input: Array<string>, f: (input: string) => number): number =>
   input
-    .map(difference)
+    .map(f)
     .reduce((p, c) => p + c, 0)
+
+const encodedLessLiteral = (input: string): number => {
+  const encoded = ['"', ...Array.from(encode(input).split('')), '"'].join('')
+  const el = encoded.length
+  const ll = input.length
+  return el - ll
+}
 
 const stars = () => { 
   const input = fs.readFileSync('./input', 'utf-8').split('\n')
-  const output = sumOfDifferences(input)
-  console.log(output)
+  const outputOne = sumOfDifferences(input, literalLessDecoded)
+  const outputTwo = sumOfDifferences(input, encodedLessLiteral)
+  console.log(outputOne)
+  console.log(outputTwo)
 }
 
 const tests = () => {
-  
+  encodeTests()
 }
 
 const main = () => {

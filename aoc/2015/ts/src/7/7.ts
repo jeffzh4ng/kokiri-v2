@@ -237,7 +237,8 @@ const stars = () => {
   const instrs = parsedInput.reduce((p, c) => new Map([...Array.from(p.entries()), [c.id, c.expr]]), new Map<Binding, Expr>())
   const state = new Map<Binding, number>()
 
-  const output = evaluate(state, instrs, 'a',)
+  const output = evaluate(state, instrs, 'a',).val
+  console.log(output)
 }
 
 const tests = () => {
