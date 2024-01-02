@@ -39,8 +39,11 @@ const lookAndSayN = (input: string, n: number): string =>
 
 const stars = () => {
   const input = 1113222113
-  const output = lookAndSayN(input.toString(), 40)
-  console.log(output.length)
+  const outputOne = lookAndSayN(input.toString(), 40)
+  const outputTwo = lookAndSayN(input.toString(), 50)
+
+  console.log(outputOne.length)
+  console.log(outputTwo.length)
 }
 
 const tests = () => {
