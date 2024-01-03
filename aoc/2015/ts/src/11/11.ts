@@ -100,9 +100,14 @@ const nextPassword = (input: string): string => {
 }
 
 const stars = () => {
-  const input = 'vzbxkghb'
-  const output = nextPassword(input)
-  console.log(output)
+  // const input = 'vzbxkghb'
+  // const output = nextPassword(input)
+
+  const inputTwo = 'vzbxxyzz'
+  const outputTwo = nextPassword(inputTwo)
+
+  // console.log(output)
+  console.log(outputTwo)
 }
 
 const tests = () => {
