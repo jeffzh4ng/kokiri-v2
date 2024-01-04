@@ -18,35 +18,47 @@ interface Status {
   durationLeft: number
 }
 
-interface Flying {
-  kind: "flying"
-  durationLeft: FlyDuration
-}
-
-interface Resting {
-  kind: "resting"
-  durationLeft: RestDuration
-}
-
 interface DeerStateInfo {
   distance: number
   status: Status
 }
 type DeerState = Map<Deer, DeerStateInfo>
+type DeerPoints = Map<Deer, number>
 
-const tickN = (state: DeerState, map: DeerMap, n: number): DeerState =>
+const tickPoints = (state: DeerState, points: DeerPoints): DeerPoints => {
+  const winner = Array.from(
+    state.entries())
+    .reduce((p, c) => {
+      const [currentDeer, currentStateInfo] = c
+      const prevDistance = state.get(p)?.distance || 0
+
+      return currentStateInfo.distance > prevDistance ? currentDeer : p
+    }, '')
+
+
+  const winnersPreviousPoints = points.get(winner) || 0
+  const prevEntries = Array.from(points.entries())
+  const newPoints = new Map([...prevEntries, [winner, winnersPreviousPoints + 1]])
+
+  return newPoints
+}
+
+const tickN = (state: DeerState, map: DeerMap, n: number): [DeerState, DeerPoints] =>
   Array(n)
     .fill(0)
-    .reduce((p, _) => {
-      const foo = tick(p, map)
-      console.log(foo)
-      return foo
-    }
-      , state)
+    .reduce<[DeerState, DeerPoints]>((p, _) => {
+      const [state, points] = p
 
-// tick :: DeerState -> DeerMap -> DeerState
+      const newState = tickState(p[0], map)
+      const newPoints = tickPoints(newState, points)
+
+      console.log(newPoints)
+      return [newState, newPoints]
+    }, [state, new Map()])
+
+// tickState :: DeerState -> DeerMap -> DeerState
 // Purpose: produces the state associated with the next tick
-const tick = (state: DeerState, map: DeerMap): DeerState =>
+const tickState = (state: DeerState, map: DeerMap): DeerState =>
   Array.from(
     state.entries())
     .reduce((p, c) => {
